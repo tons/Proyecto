@@ -1,3 +1,44 @@
+<?php
+$errores = [];
+if($_POST){
+  $usuario = [
+    "name"=> $_POST["Nombre"],
+    "email"=>$_POST["Email"],
+    "password"=> password_hash($_POST["Password"],PASSWORD_DEFAULT)
+  ];
+
+ // Se obtiene texto plano
+  $stringDesdeArchivo = file_get_contents("usuarios.json");
+  // El texto plano se convierte a Php
+  $usuarios = json_decode($stringDesdeArchivo, true);
+
+    // Instrucciones, validaciones,
+
+    // Se vuelve a guardar como texto plano
+  file_put_contents("usuarios.json", json_encode($usuarios));
+
+  $usuarioDuplicado=chequearEmailDuplicado($_POST["email"]);
+
+  if($usuarioDuplicado){
+    $errores[]="El email ya existe";
+    return;
+  }
+
+}
+
+function chequearEmailDuplicado($email){
+  foreach ($usuarios as $usuario) {
+    if($usuario["email"] == $email){
+return true;
+    }
+    return false;
+  }
+}
+
+
+
+ ?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -21,18 +62,18 @@
                             <p class="text-muted">Si tiene alguna pregunta, no dude en <a href="-back-template/contact.html">contactarnos</a>,
                                 nuestro centro de atención al cliente está a su disposición las 24hs.</p>
                             <hr>
-                            <form action="customer-orders.html" method="get">
+                            <form action="customer-orders.html" method="post">
                                 <div class="form-group">
                                     <label for="name-login">Nombre</label>
-                                    <input id="name-login" type="text" class="form-control">
+                                    <input id="name-login" type="text" class="form-control" name="Nombre">
                                 </div>
                                 <div class="form-group">
                                     <label for="email-login">Email</label>
-                                    <input id="email-login" type="text" class="form-control">
+                                    <input id="email-login" type="text" class="form-control" name="Email">
                                 </div>
                                 <div class="form-group">
                                     <label for="password-login">Contraseña</label>
-                                    <input id="password-login" type="password" class="form-control">
+                                    <input id="password-login" type="password" class="form-control" name="Password">
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-template-outlined"><i class="fa fa-user-md"></i> Registrarse</button>
