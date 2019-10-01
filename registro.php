@@ -93,7 +93,14 @@ $nombre = "";
                                     <label for="password-login">Contraseña</label>
                                     <input id="password" type="password" class="form-control" name="Password">
                                 </div>
-                                <div class="text-center">
+                                <div class="form-group">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="recordar usuario">
+                                  <label class="form-check-label" for="gridCheck">
+                                    Recordar Usuario
+                                  </label>
+                                </div>
+                              </div>
                                     <button type="submit" class="btn btn-template-outlined"><i class="fa fa-user-md"></i> Registrarse</button>
                                 </div>
                             </form>
