@@ -93,11 +93,22 @@ $nombre = "";
                                     <label for="password-login">Contraseña</label>
                                     <input id="password" type="password" class="form-control" name="Password">
                                 </div>
+<<<<<<< HEAD
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="customFileLang" lang="es">
                                     <label class="custom-file-label" for="customFileLang">Sube tu foto de perfil</label>
                                 </div>
                                 <div class="text-center">
+=======
+                                <div class="form-group">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="recordar usuario">
+                                  <label class="form-check-label" for="gridCheck">
+                                    Recordar Usuario
+                                  </label>
+                                </div>
+                              </div>
+>>>>>>> 705c6680aa3cce9352da4333c248a935fef74064
                                     <button type="submit" class="btn btn-template-outlined"><i class="fa fa-user-md"></i> Registrarse</button>
                                 </div>
                             </form>
