@@ -93,6 +93,10 @@ $nombre = "";
                                     <label for="password-login">Contraseña</label>
                                     <input id="password" type="password" class="form-control" name="Password">
                                 </div>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFileLang" lang="es">
+                                    <label class="custom-file-label" for="customFileLang">Sube tu foto de perfil</label>
+                                </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-template-outlined"><i class="fa fa-user-md"></i> Registrarse</button>
                                 </div>
