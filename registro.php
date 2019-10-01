@@ -34,7 +34,7 @@ return true;
     return false;
   }
 }
-
+ // Validación
 if ($_POST) {
   if (strlen ($_POST['nombre']) == 0){
     echo "No llenaste el nombre <br>";
@@ -42,6 +42,17 @@ if ($_POST) {
     echo "El mail no tiene el formato correcto";
   }
 }
+
+// persistencia php//
+$email = "";
+$password = "";
+$nombre = "";
+
+ if ($_POST) {
+   $email = $_POST["email"];
+   $password = $_POST["password"];
+   $nombre = $_POST["nombre"];
+    }
 
 
  ?>
@@ -66,8 +77,8 @@ if ($_POST) {
                             <h2 class="text-uppercase">Nueva Cuenta</h2>
                             <p class="lead">¿Cliente no registrado aún?</p>
                             <p>Registrate con nosotros y accede a un nuevo mundo de la moda. ¡No te llevará más de un minuto!</p>
-                            <p class="text-muted">Si tiene alguna pregunta, no dude en <a href="-back-template/contact.html">contactarnos</a>,
-                                nuestro centro de atención al cliente está a su disposición las 24 hs.</p>
+                            <p class="text-muted">Si tenes alguna pregunta, no dudes en <a href="-back-template/contact.html">contactarnos</a>,
+                                nuestro centro de atención al cliente está a disposición las 24 hs.</p>
                             <hr>
                             <form action="customer-orders.html" method="post">
                                 <div class="form-group">
@@ -93,7 +104,7 @@ if ($_POST) {
                             <h2 class="text-uppercase">Ingresar</h2>
                             <p class="lead">¿Ya sos cliente?</p>
                             <hr>
-                            <form action="customer-orders.html" method="get">
+                            <form action="customer-orders.html" method="post">
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input id="email" type="text" class="form-control">
@@ -101,9 +112,11 @@ if ($_POST) {
                                 <div class="form-group">
                                     <label for="password">Contraseña</label>
                                     <input id="password" type="password" class="form-control">
+                                    <input type="text" name="email" value="<?=$email?>">
+                                    <input type="text" name="password" value="<?=$password?>">
                                 </div>
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-template-outlined"><i class="fa fa-sign-in"></i> Ingresar</button>
+                                    <button type="submit" class="btn btn-template-outlined"><i class="fa fa-sign-in"></i>Ingresar</button>
                                 </div>
                             </form>
                         </div>
