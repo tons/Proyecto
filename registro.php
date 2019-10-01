@@ -35,6 +35,13 @@ return true;
   }
 }
 
+if ($_POST) {
+  if (strlen ($_POST['nombre']) == 0){
+    echo "No llenaste el nombre <br>";
+  } if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) == false) {
+    echo "El mail no tiene el formato correcto";
+  }
+}
 
 
  ?>
@@ -60,20 +67,20 @@ return true;
                             <p class="lead">¿Cliente no registrado aún?</p>
                             <p>Registrate con nosotros y accede a un nuevo mundo de la moda. ¡No te llevará más de un minuto!</p>
                             <p class="text-muted">Si tiene alguna pregunta, no dude en <a href="-back-template/contact.html">contactarnos</a>,
-                                nuestro centro de atención al cliente está a su disposición las 24hs.</p>
+                                nuestro centro de atención al cliente está a su disposición las 24 hs.</p>
                             <hr>
                             <form action="customer-orders.html" method="post">
                                 <div class="form-group">
                                     <label for="name-login">Nombre</label>
-                                    <input id="name-login" type="text" class="form-control" name="Nombre">
+                                    <input id="name" type="text" class="form-control" name="Nombre">
                                 </div>
                                 <div class="form-group">
                                     <label for="email-login">Email</label>
-                                    <input id="email-login" type="text" class="form-control" name="Email">
+                                    <input id="email" type="text" class="form-control" name="Email">
                                 </div>
                                 <div class="form-group">
                                     <label for="password-login">Contraseña</label>
-                                    <input id="password-login" type="password" class="form-control" name="Password">
+                                    <input id="password" type="password" class="form-control" name="Password">
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-template-outlined"><i class="fa fa-user-md"></i> Registrarse</button>
