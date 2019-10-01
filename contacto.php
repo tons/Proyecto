@@ -18,7 +18,7 @@
               <ul class="breadcrumb d-flex justify-content-end">
 <<<<<<< HEAD:-back-template/contact.html
                 <li class="breadcrumb-item"><a href="index-back.html">Home</a></li>
-                <li class="breadcrumb-item active">Contact</li>
+                <li class="breadcrumb-item active">Contacto</li>
 =======
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                 <li class="breadcrumb-item active">Contacto</li>
@@ -36,8 +36,8 @@
                 <div class="heading">
                   <h2>Estamos aquí para ayudarte</h2>
                 </div>
-                <p class="lead">¿Tienes curiosidad por algo? ¿Tienes algún tipo de problema con nuestros productos?</p>
-                <p class="text-sm">No dude en contactarnos, nuestro centro de atención al cliente está trabajando para usted 24/7.</p>
+                <p class="lead">¿Tenes curiosidad por algo? ¿Tenes algún tipo de problema con nuestros productos?</p>
+                <p class="text-sm">No dudes en contactarnos, nuestro centro de atención al cliente está trabajando para vos las 24 horas los 365 días del año.</p>
               </div>
             </div>
           </section>
@@ -47,7 +47,7 @@
                 <div class="box-simple">
                   <div class="icon-outlined"><i class="fa fa-map-marker"></i></div>
                   <h3 class="h4">Dirección</h3>
-                  <p>13/25 New Avenue<br>                                        New Heaven, 45Y 73J<br>                                        England,  <strong>Great Britain</strong></p>
+                  <p>José Baigorrí 643<br>                                      Alta Córdoba, <br>                                        Córdoba,  <strong>Argentina</strong></p>
                 </div>
               </div>
               <div class="col-md-4">
@@ -55,7 +55,7 @@
                   <div class="icon-outlined"><i class="fa fa-phone"></i></div>
                   <h3 class="h4">Atención telefónica</h3>
                   <p>Este número es gratuito si llama desde Argentina; de lo contrario, le recomendamos que utilice la forma de comunicación electrónica.</p>
-                  <p><strong>+33 555 444 333</strong></p>
+                  <p><strong>+54 9 351 4828282</strong></p>
                 </div>
               </div>
               <div class="col-md-4">
@@ -64,8 +64,8 @@
                   <h3 class="h4">Soporte electrónico</h3>
                   <p>No dude en escribirnos un correo electrónico o utilizar nuestro sistema de tickets electrónicos.</p>
                   <ul class="list-unstyled text-sm">
-                    <li><strong><a href="mailto:">info@viste.me</a></strong></li>
-                    <li><strong><a href="#">Ticketio</a></strong> - nuestra plataforma de soporte de tickets electrónico</li>
+                    <li><strong><a href="mailto:">atencionalcliente@visteme.com</a></strong></li>
+                    <li><strong><a href="#">TicketME</a></strong> - Nuestra plataforma de soporte de tickets electrónico</li>
                   </ul>
                 </div>
               </div>
