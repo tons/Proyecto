@@ -25,7 +25,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="password_old">Contraseña anterior</label>
-                        <input id="password_old" type="password" class="form-control">
+                        <input id="password_old" type="password" class="form-control" name="passanterior">
                       </div>
                     </div>
                   </div>
@@ -33,18 +33,18 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="password_1">Contraseña nueva</label>
-                        <input id="password_1" type="password" class="form-control">
+                        <input id="password_1" type="password" class="form-control" name="nuevopass">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="password_2">Repita contraseña nueva</label>
-                        <input id="password_2" type="password" class="form-control">
+                        <input id="password_2" type="password" class="form-control" name="nuevopassrep">
                       </div>
                     </div>
                   </div>
                   <div class="text-center">
-                    <button type="submit" class="btn btn-template-outlined"><i class="fa fa-save"></i> Guarde contraseña nueva</button>
+                    <button type="submit" class="btn btn-template-outlined">Guardar Nueva Contraseña <i class="fa fa-save"></i></button>
                   </div>
                 </form>
               </div>
@@ -52,12 +52,12 @@
                 <div class="heading">
                   <h3 class="text-uppercase">Datos personales</h3>
                 </div>
-                <form>
+                <form name="perfil">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="firstname">Nombre</label>
-                        <input id="firstname" type="text" class="form-control">
+                        <input id="firstname" type="text" class="form-control" value="<?= $_SESSION[""]?>">
                       </div>
                     </div>
                     <div class="col-md-6">

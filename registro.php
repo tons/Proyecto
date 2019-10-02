@@ -3,7 +3,7 @@ include("inc/func.php");
 $errores = [];
 $name = $mail = '';
 
-if (isset($_POST["registry"]) && $_POST["registry"] == "registrarse") {
+if (isset($_POST["registry"]) && $_POST["registry"] === "registrarse") {
 
     $nombre = $_POST["name"];
     $mail = $_POST["mail"];
@@ -60,10 +60,63 @@ if (isset($_POST["registry"]) && $_POST["registry"] == "registrarse") {
         $datosEnPhp['usuarios'][] = $usuario;
 
         file_put_contents('db/usuarios.json', json_encode($datosEnPhp));
+	
+	    session_start();
+	    $_SESSION['usuario'] = [
+	        "name" => $usuario['name'],
+            "email" => $usuario['email'],
+            "imagen" => $usuario['imagen']
+        ];
 
         header("Location: perfil.php");
     }
 }
+
+
+if (isset($_POST["login"]) && $_POST["login"] === "ingresar") {
+    
+    $mail = $_POST["mail"];
+    $pass = $_POST["password"];
+
+    if (!isset($_POST['mail']) || !isset($_POST['password'])) {
+        $errores[] = "Debes completar ambos campos";
+    } else {
+        
+        if (empty($_POST['mail'])) {
+            $errores[] = "Debes ingresar tu email";
+        } else if (!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
+            $errores[] = "Debes ingresar un email válido";
+        }
+        
+        if (empty($_POST['password'])) {
+		    $errores[] = "Debes completar tu contraseña";
+	    }
+    }
+
+    if (empty($errores)) {
+        
+        
+        
+        $datosPuros = file_get_contents('db/usuarios.json');
+        $datosEnPhp = json_decode($datosPuros, true);
+        
+        /** VALIDAR USUARIO SI EXISTE */
+        $usuari = login($mail, $pass); // TODO: esto!
+	
+	    $_SESSION['usuario'] = [
+		    "name" => $usuario['name'],
+		    "email" => $usuario['email'],
+		    "imagen" => $usuario['imagen']
+	    ];
+	    
+        session_start();
+        $_SESSION['usuario'] = $usuario;
+
+        header("Location: perfil.php");
+    }
+}
+
+
 
 ?>
 
@@ -90,32 +143,35 @@ if (isset($_POST["registry"]) && $_POST["registry"] == "registrarse") {
                             <p class="text-muted">Si tenes alguna pregunta, no dudes en <a href="-back-template/contact.html">contactarnos</a>,
                                 nuestro centro de atención al cliente está a disposición las 24 hs.</p>
                             <hr>
-                            <form action="customer-orders.html" method="post">
+                            <?php
+                            if(count($errores) > 0) {
+                                echo "<h4>Revisa los errores:</h4>";
+                                echo "<ul>";
+                                foreach ($errores as $item) {
+                                    echo "<li>".$item."</li>";
+                                }
+                                echo "</ul>";
+                            }
+                            ?>
+                            <form action="" method="post">
+                                <input type="hidden" name="registry" value="registrarse">
                                 <div class="form-group">
                                     <label for="name-login">Nombre</label>
-                                    <input id="name" type="text" class="form-control" name="Nombre">
+                                    <input id="name" type="text" class="form-control" name="name">
                                 </div>
                                 <div class="form-group">
                                     <label for="email-login">Email</label>
-                                    <input id="email" type="text" class="form-control" name="Email">
+                                    <input id="email" type="text" class="form-control" name="mail">
                                 </div>
                                 <div class="form-group">
                                     <label for="password-login">Contraseña</label>
-                                    <input id="password" type="password" class="form-control" name="Password">
+                                    <input id="password" type="password" class="form-control" name="password">
                                 </div>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="customFileLang" lang="es">
                                     <label class="custom-file-label" for="customFileLang">Sube tu foto de perfil</label>
                                 </div>
                                 <div class="text-center">
-                                <div class="form-group">
-                                <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" id="recordar usuario">
-                                  <label class="form-check-label" for="gridCheck">
-                                    Recordar Usuario
-                                  </label>
-                                </div>
-                              </div>
                                     <button type="submit" class="btn btn-template-outlined"><i class="fa fa-user-md"></i> Registrarse</button>
                                 </div>
                             </form>
@@ -126,19 +182,23 @@ if (isset($_POST["registry"]) && $_POST["registry"] == "registrarse") {
                             <h2 class="text-uppercase">Ingresar</h2>
                             <p class="lead">¿Ya sos cliente?</p>
                             <hr>
-                            <form action="customer-orders.html" method="post">
+                            <form action="" method="post">
+                                <input type="hidden" name="login" value="ingresar">
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input id="email" type="text" class="form-control">
+                                    <input name="mail" id="mail" type="mail" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Contraseña</label>
-                                    <input id="password" type="password" class="form-control">
-                                    <input type="text" name="email" value="<?=$email?>">
-                                    <input type="text" name="password" value="<?=$password?>">
+                                    <input name="password" id="password" type="password" class="form-control">
                                 </div>
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="recordar" name="recordar" value="si">
+                                        <label class="form-check-label" for="recordar">Recordar Usuario</label>
+                                    </div>
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-template-outlined"><i class="fa fa-sign-in"></i>Ingresar</button>
+                                    <button type="submit" class="btn btn-template-outlined">Ingresar <i class="fa fa-sign-in"></i></button>
                                 </div>
                             </form>
                         </div>
