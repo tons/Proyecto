@@ -1,5 +1,5 @@
 <?php
-
+include("inc/func.php");
 $errores = [];
 $name = $mail = '';
 
@@ -10,7 +10,7 @@ if (isset($_POST["registry"]) && $_POST["registry"] == "registrarse") {
     $pass = $_POST["password"];
     $image = $_FILES["image"];
 
-    if (!isset($_POST['name']) || !isset($_POST['mail']) || !isset($_POST['password'])) {
+    if (!isset($_POST['name']) || !isset($_POST['mail'])) {
         $errores[] = "Debes completar ambos campos";
     } else {
 
@@ -46,26 +46,22 @@ if (isset($_POST["registry"]) && $_POST["registry"] == "registrarse") {
 
         if (isset($_FILES['image'])) {
             $extensionImagen = pathinfo($archivoImagen['name'], PATHINFO_EXTENSION);
-            $rutaImagen = 'imagenes/usuarios/' . $_POST['username'] . '.' . $extensionImagen;
-            move_uploaded_file(
-                $archivoImagen['tmp_name'],
-                $rutaImagen
-            );
+            $rutaImagen = 'img/avatar/' . $_POST['username'] . '.' . $extensionImagen;
+            move_uploaded_file($archivoImagen['tmp_name'], $rutaImagen);
 
             $usuario['image'] = $rutaImagen;
         }
 
-        $datosPuros = file_get_contents('usuarios.json');
+        $datosPuros = file_get_contents('db/usuarios.json');
         $datosEnPhp = json_decode($datosPuros, true);
 
         $usuario['id'] = (count($datosEnPhp['usuarios']) + 1);
 
         $datosEnPhp['usuarios'][] = $usuario;
 
-        file_put_contents('usuarios.json', json_encode($datosEnPhp));
+        file_put_contents('db/usuarios.json', json_encode($datosEnPhp));
 
-
-        return header("Location: index.php");
+        header("Location: perfil.php");
     }
 }
 
@@ -94,36 +90,32 @@ if (isset($_POST["registry"]) && $_POST["registry"] == "registrarse") {
                             <p class="text-muted">Si tenes alguna pregunta, no dudes en <a href="-back-template/contact.html">contactarnos</a>,
                                 nuestro centro de atención al cliente está a disposición las 24 hs.</p>
                             <hr>
-                            <?php if(count($errores)) {
-                                echo "<h3>Revise Errores:</h3><ul>";
-                                foreach ($errores as $item) {
-                                    echo "<li>".$item."</li>";
-                                }
-                                echo "<ul>";
-                            } ?>
                             <form action="customer-orders.html" method="post">
                                 <div class="form-group">
                                     <label for="name-login">Nombre</label>
-                                    <input id="name" type="text" class="form-control" name="Nombre" value="">
+                                    <input id="name" type="text" class="form-control" name="Nombre">
                                 </div>
                                 <div class="form-group">
                                     <label for="email-login">Email</label>
-                                    <input id="email" type="text" class="form-control" name="Email" value="">
+                                    <input id="email" type="text" class="form-control" name="Email">
                                 </div>
                                 <div class="form-group">
                                     <label for="password-login">Contraseña</label>
-                                    <input id="password" type="password" class="form-control" name="Password" value="">
+                                    <input id="password" type="password" class="form-control" name="Password">
                                 </div>
                                 <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFileLang" lang="es">
                                     <label class="custom-file-label" for="customFileLang">Sube tu foto de perfil</label>
-                                    <input type="file" name="image" class="custom-file-input" id="image" lang="es">
                                 </div>
+                                <div class="text-center">
                                 <div class="form-group">
-                                    <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" id="recordar usuario">
-                                      <label class="form-check-label" for="gridCheck">Recordar Usuario</label>
-                                    </div>
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="recordar usuario">
+                                  <label class="form-check-label" for="gridCheck">
+                                    Recordar Usuario
+                                  </label>
                                 </div>
+                              </div>
                                     <button type="submit" class="btn btn-template-outlined"><i class="fa fa-user-md"></i> Registrarse</button>
                                 </div>
                             </form>
