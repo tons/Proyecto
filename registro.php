@@ -1,7 +1,7 @@
 <?php
 include("inc/func.php");
-$errores = [];
-$name = $mail = '';
+$errorLogin = $errores = [];
+$name = $mail = $pass = '';
 
 if (isset($_POST["registry"]) && $_POST["registry"] === "registrarse") {
 
@@ -25,10 +25,9 @@ if (isset($_POST["registry"]) && $_POST["registry"] === "registrarse") {
         } else if (!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
             $errores[] = "Debes ingresar un email válido";
         } else {
-            $existe = chequearEmailDuplicado($_POST["email"]);
+            $existe = existeEmail($_POST["mail"]);
             if($existe){
                 $errores[] = "El email ya existe";
-                return;
             }
         }
     }
@@ -39,12 +38,13 @@ if (isset($_POST["registry"]) && $_POST["registry"] === "registrarse") {
             "name" => $_POST['name'],
             "password" => password_hash($_POST['password'], PASSWORD_DEFAULT),
             "email" => $_POST['mail'],
-            "imagen" => $_FILES["image"]
+            "imagen" => (isset($_FILES['image']) ? $_FILES["image"] : '')
         ];
-
-        $archivoImagen = $_FILES['image'];
-
+        
         if (isset($_FILES['image'])) {
+            
+            $archivoImagen = $_FILES['image'];
+            
             $extensionImagen = pathinfo($archivoImagen['name'], PATHINFO_EXTENSION);
             $rutaImagen = 'img/avatar/' . $_POST['username'] . '.' . $extensionImagen;
             move_uploaded_file($archivoImagen['tmp_name'], $rutaImagen);
@@ -72,30 +72,27 @@ if (isset($_POST["registry"]) && $_POST["registry"] === "registrarse") {
     }
 }
 
-
 if (isset($_POST["login"]) && $_POST["login"] === "ingresar") {
     
     $mail = $_POST["mail"];
     $pass = $_POST["password"];
 
     if (!isset($_POST['mail']) || !isset($_POST['password'])) {
-        $errores[] = "Debes completar ambos campos";
+	    $errorLogin[] = "Debes completar ambos campos";
     } else {
         
         if (empty($_POST['mail'])) {
-            $errores[] = "Debes ingresar tu email";
+	        $errorLogin[] = "Debes ingresar tu email";
         } else if (!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
-            $errores[] = "Debes ingresar un email válido";
+	        $errorLogin[] = "Debes ingresar un email válido";
         }
         
         if (empty($_POST['password'])) {
-		    $errores[] = "Debes completar tu contraseña";
+	        $errorLogin[] = "Debes completar tu contraseña";
 	    }
     }
 
-    if (empty($errores)) {
-        
-        
+    if (empty($errorLogin)) {
         
         $datosPuros = file_get_contents('db/usuarios.json');
         $datosEnPhp = json_decode($datosPuros, true);
@@ -115,8 +112,6 @@ if (isset($_POST["login"]) && $_POST["login"] === "ingresar") {
         header("Location: perfil.php");
     }
 }
-
-
 
 ?>
 
@@ -182,6 +177,16 @@ if (isset($_POST["login"]) && $_POST["login"] === "ingresar") {
                             <h2 class="text-uppercase">Ingresar</h2>
                             <p class="lead">¿Ya sos cliente?</p>
                             <hr>
+	                        <?php
+	                        if(count($errorLogin) > 0) {
+		                        echo "<h4>Revisa los errores:</h4>";
+		                        echo "<ul>";
+		                        foreach ($errorLogin as $item) {
+			                        echo "<li>".$item."</li>";
+		                        }
+		                        echo "</ul>";
+	                        }
+	                        ?>
                             <form action="" method="post">
                                 <input type="hidden" name="login" value="ingresar">
                                 <div class="form-group">
