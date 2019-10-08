@@ -22,7 +22,8 @@ function login($email, $password){
 		$dbJson = file_get_contents("db/usuarios.json");
 		$usuarios = json_decode($dbJson, true);
 		
-		$usuario = $usuarios["usuarios"][];
+		/** TODO: validar contraseña acá */
+		//$usuario = $usuarios["usuarios"][];
 		
 		password_verify($password, $hash);
 	} else {
