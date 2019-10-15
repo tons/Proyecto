@@ -8,7 +8,6 @@ if (isset($_POST["registry"]) && $_POST["registry"] === "registrarse") {
     $nombre = $_POST["name"];
     $mail = $_POST["mail"];
     $pass = $_POST["password"];
-    $image = $_FILES["image"];
 
     if (!isset($_POST['name']) || !isset($_POST['mail'])) {
         $errores[] = "Debes completar ambos campos";

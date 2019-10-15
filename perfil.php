@@ -2,6 +2,12 @@
 session_start();
 if(!isset($_SESSION["usuario"])){
 	header("location: registro.php");
+} else {
+    $usuario = [
+        "nombre" => (($_SESSION["usuario"]["nombre"]) ?  : ""),
+        "apellido" => (($_SESSION["usuario"]["apellido"]) ?  : ""),
+        "image" => (($_SESSION["usuario"]["image"]) ?  : "")
+    ];
 }
 ?>
 <!DOCTYPE html>
@@ -63,13 +69,13 @@ if(!isset($_SESSION["usuario"])){
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="firstname">Nombre</label>
-                        <input id="firstname" type="text" class="form-control" value="<?= $_SESSION[""]?>">
+                        <input id="firstname" type="text" class="form-control" value="<?= $_SESSION["usuario"]["nombre"]?>">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="lastname">Apellido</label>
-                        <input id="lastname" type="text" class="form-control">
+                        <input id="lastname" type="text" class="form-control" value="<?= $_SESSION["usuario"]["apellido"]?>">
                       </div>
                     </div>
                   </div>
@@ -77,13 +83,13 @@ if(!isset($_SESSION["usuario"])){
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="company">Compañía</label>
-                        <input id="company" type="text" class="form-control">
+                        <input id="company" type="text" class="form-control" value="">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="street">Dirección</label>
-                        <input id="street" type="text" class="form-control">
+                        <input id="street" type="text" class="form-control"  value="<?= $direccion?>">
                       </div>
                     </div>
                   </div>
