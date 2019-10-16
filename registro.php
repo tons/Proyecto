@@ -39,11 +39,11 @@ if (isset($_POST["registry"]) && $_POST["registry"] === "registrarse") {
             "email" => $_POST['mail'],
             "imagen" => (isset($_FILES['image']) ? $_FILES["image"] : '')
         ];
-        
+
         if (isset($_FILES['image'])) {
-            
+
             $archivoImagen = $_FILES['image'];
-            
+
             $extensionImagen = pathinfo($archivoImagen['name'], PATHINFO_EXTENSION);
             $rutaImagen = 'img/avatar/' . $_POST['username'] . '.' . $extensionImagen;
             move_uploaded_file($archivoImagen['tmp_name'], $rutaImagen);
@@ -59,7 +59,7 @@ if (isset($_POST["registry"]) && $_POST["registry"] === "registrarse") {
         $datosEnPhp['usuarios'][] = $usuario;
 
         file_put_contents('db/usuarios.json', json_encode($datosEnPhp));
-	
+
 	    session_start();
 	    $_SESSION['usuario'] = [
 	        "name" => $usuario['name'],
@@ -72,39 +72,39 @@ if (isset($_POST["registry"]) && $_POST["registry"] === "registrarse") {
 }
 
 if (isset($_POST["login"]) && $_POST["login"] === "ingresar") {
-    
+
     $mail = $_POST["mail"];
     $pass = $_POST["password"];
 
     if (!isset($_POST['mail']) || !isset($_POST['password'])) {
 	    $errorLogin[] = "Debes completar ambos campos";
     } else {
-        
+
         if (empty($_POST['mail'])) {
 	        $errorLogin[] = "Debes ingresar tu email";
         } else if (!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
 	        $errorLogin[] = "Debes ingresar un email válido";
         }
-        
+
         if (empty($_POST['password'])) {
 	        $errorLogin[] = "Debes completar tu contraseña";
 	    }
     }
 
     if (empty($errorLogin)) {
-        
+
         $datosPuros = file_get_contents('db/usuarios.json');
         $datosEnPhp = json_decode($datosPuros, true);
-        
+
         /** VALIDAR USUARIO SI EXISTE */
         $usuari = login($mail, $pass); // TODO: esto!
-	
+
 	    $_SESSION['usuario'] = [
 		    "name" => $usuario['name'],
 		    "email" => $usuario['email'],
 		    "imagen" => $usuario['imagen']
 	    ];
-	    
+
         session_start();
         $_SESSION['usuario'] = $usuario;
 
@@ -151,15 +151,15 @@ if (isset($_POST["login"]) && $_POST["login"] === "ingresar") {
                                 <input type="hidden" name="registry" value="registrarse">
                                 <div class="form-group">
                                     <label for="name-login">Nombre</label>
-                                    <input id="name" type="text" class="form-control" name="name">
+                                    <input id="name" type="text" class="form-control" name="name" value="<?=$name?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="email-login">Email</label>
-                                    <input id="email" type="text" class="form-control" name="mail">
+                                    <input id="email" type="text" class="form-control" name="mail" value="<?=$mail?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="password-login">Contraseña</label>
-                                    <input id="password" type="password" class="form-control" name="password">
+                                    <input id="password" type="password" class="form-control" name="password" value="<?=$pass?>">
                                 </div>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="customFileLang" lang="es">
