@@ -1,30 +1,33 @@
 <?php
 include("inc/func.php");
 $errorLogin = $errores = [];
-$name = $mail = $pass = '';
+
+$usuario = [
+    "name" => "",
+    "email" =>""
+];
 
 if (isset($_POST["registry"]) && $_POST["registry"] === "registrarse") {
 
-    $nombre = $_POST["name"];
-    $mail = $_POST["mail"];
-    $pass = $_POST["password"];
+    $usuario = [
+        "name" => isset($_POST['name']) ? $_POST['name'] : null,
+        "password" => isset($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null,
+        "email" => isset($_POST['mail']) ? $_POST['mail'] : null,
+        "imagen" => (isset($_FILES['image']) ? $_FILES["image"] : '')
+    ];
 
-    if (!isset($_POST['name']) || !isset($_POST['mail'])) {
+    if (is_null($usuario["name"]) || is_null($usuario["email"])) {
         $errores[] = "Debes completar ambos campos";
     } else {
 
-        if (empty($_POST['name'])) {
-            $errores[] = "Debes completar el nombre";
-        } else if (strlen($_POST['name']) < 5) {
+        if (strlen($_POST['name']) < 5) {
             $errores[] = "El nombre debe tener al menos 5 caracteres";
         }
 
-        if (empty($_POST['mail'])) {
-            $errores[] = "Debes completar el email";
-        } else if (!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($usuario['email'], FILTER_VALIDATE_EMAIL)) {
             $errores[] = "Debes ingresar un email válido";
         } else {
-            $existe = existeEmail($_POST["mail"]);
+            $existe = existeEmail($usuario['email']);
             if($existe){
                 $errores[] = "El email ya existe";
             }
@@ -33,14 +36,7 @@ if (isset($_POST["registry"]) && $_POST["registry"] === "registrarse") {
 
     if (empty($errores)) {
 
-        $usuario = [
-            "name" => $_POST['name'],
-            "password" => password_hash($_POST['password'], PASSWORD_DEFAULT),
-            "email" => $_POST['mail'],
-            "imagen" => (isset($_FILES['image']) ? $_FILES["image"] : '')
-        ];
-
-        if (isset($_FILES['image'])) {
+        if (!is_null($usuario['imagen'])) {
 
             $archivoImagen = $_FILES['image'];
 
