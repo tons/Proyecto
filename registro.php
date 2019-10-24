@@ -37,7 +37,7 @@ if (isset($_POST["registry"]) && $_POST["registry"] === "registrarse") {
     if (empty($errores)) {
 
         if (!is_null($usuario['imagen'])) {
-
+        
             $archivoImagen = $_FILES['image'];
 
             $extensionImagen = pathinfo($archivoImagen['name'], PATHINFO_EXTENSION);
