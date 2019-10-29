@@ -68,21 +68,24 @@ if (isset($_POST["registry"]) && $_POST["registry"] === "registrarse") {
 }
 
 if (isset($_POST["login"]) && $_POST["login"] === "ingresar") {
-
-    $mail = $_POST["mail"];
-    $pass = $_POST["password"];
-
-    if (!isset($_POST['mail']) || !isset($_POST['password'])) {
+	
+	$usuarioLogin = [
+		"email" => isset($_POST['mail']) ? $_POST['mail'] : null,
+		"password" => isset($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null
+	];
+    
+    
+    if (is_null($usuarioLogin['email']) || is_null($usuarioLogin['password']) ) {
 	    $errorLogin[] = "Debes completar ambos campos";
     } else {
 
-        if (empty($_POST['mail'])) {
+        if (is_null($usuarioLogin['email'])) {
 	        $errorLogin[] = "Debes ingresar tu email";
-        } else if (!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
+        } else if (!filter_var($usuarioLogin['email'], FILTER_VALIDATE_EMAIL)) {
 	        $errorLogin[] = "Debes ingresar un email válido";
         }
 
-        if (empty($_POST['password'])) {
+        if (is_null($usuarioLogin['password'])) {
 	        $errorLogin[] = "Debes completar tu contraseña";
 	    }
     }
@@ -93,18 +96,25 @@ if (isset($_POST["login"]) && $_POST["login"] === "ingresar") {
         $datosEnPhp = json_decode($datosPuros, true);
 
         /** VALIDAR USUARIO SI EXISTE */
-        $usuari = login($mail, $pass); // TODO: esto!
-
-	    $_SESSION['usuario'] = [
-		    "name" => $usuario['name'],
-		    "email" => $usuario['email'],
-		    "imagen" => $usuario['imagen']
-	    ];
-
-        session_start();
-        $_SESSION['usuario'] = $usuario;
-
-        header("Location: perfil.php");
+        $user = login($usuarioLogin['email'], $usuarioLogin['password']);
+        
+        if(!is_null($user)) {
+	        $_SESSION['usuario'] = [
+		        "name" => $user['name'],
+		        "email" => $user['email'],
+		        "imagen" => $user['imagen']
+	        ];
+	
+	        session_start();
+	        $_SESSION['usuario'] = $usuario;
+	
+	        header("Location: perfil.php");
+        } else if($user == false) {
+	        $errorLogin[] = "Revisa tu contraseña.";
+        } else {
+	        $errorLogin[] = "No eres un usuario registrado.";
+        }
+        
     }
 }
 
@@ -147,18 +157,18 @@ if (isset($_POST["login"]) && $_POST["login"] === "ingresar") {
                                 <input type="hidden" name="registry" value="registrarse">
                                 <div class="form-group">
                                     <label for="name-login">Nombre</label>
-                                    <input id="name" type="text" class="form-control" name="name" value="<?=$name?>">
+                                    <input id="name" type="text" class="form-control" name="name" value="<?=$usuario['name']?>" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="email-login">Email</label>
-                                    <input id="email" type="text" class="form-control" name="mail" value="<?=$mail?>">
+                                    <input id="email" type="text" class="form-control" name="mail" value="<?=$usuario['email']?>" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="password-login">Contraseña</label>
-                                    <input id="password" type="password" class="form-control" name="password" value="<?=$pass?>">
+                                    <input id="password" type="password" class="form-control" name="password" value="<?=$pass?>" required>
                                 </div>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="customFileLang" lang="es">
+                                    <input type="file" class="custom-file-input" id="image" name="image" lang="es">
                                     <label class="custom-file-label" for="customFileLang">Sube tu foto de perfil</label>
                                 </div>
                                 <div class="text-center">
@@ -186,11 +196,11 @@ if (isset($_POST["login"]) && $_POST["login"] === "ingresar") {
                                 <input type="hidden" name="login" value="ingresar">
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input name="mail" id="mail" type="mail" class="form-control">
+                                    <input name="mail" id="mail" type="mail" class="form-control" value="<?=$usuario['email']?>" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Contraseña</label>
-                                    <input name="password" id="password" type="password" class="form-control">
+                                    <input name="password" id="password" type="password" class="form-control" value="" required>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-check">
