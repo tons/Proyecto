@@ -63,8 +63,8 @@
     <div id="navbar" role="navigation" class="navbar navbar-expand-lg">
         <div class="container">
             <a href="index.php" class="navbar-brand home">
-                <img src="" alt="Viste.me!" class="d-none d-md-inline-block">
-                <img src="" alt="Viste.me!" class="d-inline-block d-md-none">
+                <img src="img/logo-visteme" alt="Viste.me!" class="d-none d-md-inline-block">
+                <img src="img/logo-visteme" alt="Viste.me!" class="d-inline-block d-md-none">
                 <span class="sr-only">Inicio</span>
             </a>
             <button type="button" data-toggle="collapse" data-target="#navigation" class="navbar-toggler btn-template-outlined"><span class="sr-only">Cambiar navegación</span><i class="fa fa-align-justify"></i></button>
